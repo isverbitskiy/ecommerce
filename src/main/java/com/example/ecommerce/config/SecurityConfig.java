@@ -40,6 +40,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**").permitAll() // Разрешить доступ к Swagger UI
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/products/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
