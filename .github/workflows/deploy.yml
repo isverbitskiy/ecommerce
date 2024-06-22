@@ -26,6 +26,10 @@ jobs:
           gcloud config set project e-commerce-petproject
           gcloud config set compute/zone asia-southeast1-a
 
+      - name: Configure Docker to use gcloud as a credential helper
+        run: |
+          gcloud auth configure-docker
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
