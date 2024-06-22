@@ -16,26 +16,24 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v1
+      - name: Login to Google Cloud
+        uses: google-github-actions/auth@v0.4.0
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+
+      - name: Configure Google Cloud project
+        run: |
+          gcloud config set project E-Commerce PetProject
+          gcloud config set compute/zone asia-southeast1-a
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/ecommerce-app:latest
+          tags: gcr.io/e-commerce-petproject/ecommerce-app:latest
 
-      - name: SSH into server and deploy
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          script: |
-            docker pull ${{ secrets.DOCKER_USERNAME }}/ecommerce-app:latest
-            docker stop ecommerce-app || true
-            docker rm ecommerce-app || true
-            docker run -d -p 8080:8080 --name ecommerce-app ${{ secrets.DOCKER_USERNAME }}/ecommerce-app:latest
+      - name: Deploy to GCE
+        run: |
+          gcloud compute instances update-container ecommerce-vm \
+            --container-image gcr.io/e-commerce-petproject/ecommerce-app:latest \
+            --zone asia-southeast1-a
