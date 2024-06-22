@@ -11,23 +11,23 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
 
       - name: Login to Google Cloud
-        uses: google-github-actions/auth@v0.4.0
+        uses: google-github-actions/auth@v1
         with:
           credentials_json: ${{ secrets.GCP_CREDENTIALS }}
 
       - name: Configure Google Cloud project
         run: |
-          gcloud config set project E-Commerce PetProject
+          gcloud config set project e-commerce-petproject
           gcloud config set compute/zone asia-southeast1-a
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           push: true
           tags: gcr.io/e-commerce-petproject/ecommerce-app:latest
