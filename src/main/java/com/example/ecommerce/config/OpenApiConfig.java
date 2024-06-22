@@ -18,7 +18,7 @@ public class OpenApiConfig {
     }
 
     @Bean
-    public io.swagger.v3.oas.models.OpenAPI customOpenAPI() {
+    public io.swagger.v3.oas.models.OpenAPI customOpenAPI() { //some comment
         return new io.swagger.v3.oas.models.OpenAPI()
                 .info(new Info().title("Ecommerce API")
                         .version("1.0")
