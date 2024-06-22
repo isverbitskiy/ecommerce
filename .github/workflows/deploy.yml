@@ -40,4 +40,4 @@ jobs:
         run: |
           gcloud compute instances update-container ecommerce-vm \
             --container-image gcr.io/e-commerce-petproject/ecommerce-app:latest \
-            --zone asia-southeast1-a
+            --zone asia-southeast1-c
