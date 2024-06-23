@@ -24,6 +24,7 @@ jobs:
         uses: google-github-actions/auth@v2.1.3
         with:
           workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: principalSet://iam.googleapis.com/projects/169596900841/locations/global/workloadIdentityPools/github-actions-pool/attribute.repository/isverbitskiy/ecommerce
 
       - name: Configure Google Cloud project
         run: |
