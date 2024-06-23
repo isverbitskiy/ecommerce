@@ -24,6 +24,7 @@ jobs:
         uses: google-github-actions/auth@v2.1.3
         with:
           workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: niwatarou@gmail.com
 
       - name: Configure Google Cloud project
         run: |
