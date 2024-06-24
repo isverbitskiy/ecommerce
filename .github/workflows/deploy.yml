@@ -28,17 +28,17 @@ jobs:
 
       - name: Configure Google Cloud project
         run: |
-          gcloud config set project e-commerce-petproject
+          gcloud config set project ecommerce-petproject
           gcloud config set compute/zone asia-southeast1-a
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: gcr.io/e-commerce-petproject/ecommerce-app:latest
+          tags: gcr.io/ecommerce-petproject/ecommerce-app:latest
 
       - name: Deploy to GCE
         run: |
           gcloud compute instances update-container ecommerce-vm \
-            --container-image gcr.io/e-commerce-petproject/ecommerce-app:latest \
+            --container-image gcr.io/ecommerce-petproject/ecommerce-app:latest \
             --zone asia-southeast1-a
