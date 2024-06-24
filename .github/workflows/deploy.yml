@@ -34,6 +34,9 @@ jobs:
           access_token_lifetime: 3600s
           access_token_scopes: https://www.googleapis.com/auth/cloud-platform
 
+      - name: Set PROJECT_ID environment variable
+        run: echo "PROJECT_ID=$GCP_PROJECT" >> $GITHUB_ENV
+
       - name: Configure Docker to use gcloud as a credential helper
         run: |
           gcloud auth configure-docker --quiet
