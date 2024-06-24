@@ -24,7 +24,7 @@ jobs:
         uses: google-github-actions/auth@v2.1.3
         with:
           workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: niwatarou@gmail.com
+          service_account: ecommerce-deploy@e-commerce-petproject.iam.gserviceaccount.com
 
       - name: Configure Google Cloud project
         run: |
@@ -45,8 +45,4 @@ jobs:
         run: |
           gcloud compute instances update-container ecommerce-vm \
             --container-image gcr.io/e-commerce-petproject/ecommerce-app:latest \
-            --zone asia-southeast1-a1 \
-            --project=e-commerce-petproject \
-            --workload-identity-pool=github-actions-pool \
-            --provider=github-actions-provider \
-            --allowed-audiences=https://github.com/isverbitskiy/ecommerce
+            --zone asia-southeast1-a1
