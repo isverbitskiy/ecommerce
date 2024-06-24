@@ -43,6 +43,8 @@ jobs:
 
       - name: Deploy to GCE
         run: |
-          gcloud compute instances update-container ecommerce-vm \
-            --container-image gcr.io/e-commerce-petproject/ecommerce-app:latest \
-            --zone asia-southeast1-a
+          gcloud iam workload-identity-pools providers update-oidc \
+          --project=e-commerce-petproject \
+          --workload-identity-pool=github-actions-pool \
+          --provider=github-actions-provider \
+          --allowed-audiences=https://github.com/isverbitskiy/ecommerce
