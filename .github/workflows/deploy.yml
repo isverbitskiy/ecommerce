@@ -28,13 +28,11 @@ jobs:
         with:
           workload_identity_provider: projects/169596900841/locations/global/workloadIdentityPools/github-actions-pool/providers/github-actions-provider
           service_account: ecommerce-deploy@e-commerce-petproject.iam.gserviceaccount.com
-          token_format: urn:ietf:params:oauth:token-type:id_token
           create_credentials_file: true
           export_environment_variables: true
           cleanup_credentials: true
           access_token_lifetime: 3600s
           access_token_scopes: https://www.googleapis.com/auth/cloud-platform
-          id_token_include_email: false
 
       - name: Configure Docker to use gcloud as a credential helper
         run: |
