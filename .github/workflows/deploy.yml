@@ -26,15 +26,11 @@ jobs:
         id: auth
         uses: google-github-actions/auth@v1
         with:
-          workload_identity_provider: 'projects/169596900841/locations/global/workloadIdentityPools/github-actions-pool/providers/github-actions-provider'
-          service_account: 'ecommerce-deploy@e-commerce-petproject.iam.gserviceaccount.com'
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
           token_format: 'access_token'
-          access_token_lifetime: '3600s'
           create_credentials_file: true
-          audience: https://github.com/isverbitskiy/ecommerce
-
-      - name: Set PROJECT_ID environment variable
-        run: echo "PROJECT_ID=${{ steps.auth.outputs.project_id }}" >> $GITHUB_ENV
 
       - name: Configure Docker
         run: |
@@ -44,11 +40,11 @@ jobs:
         env:
           GCR_HOSTNAME: gcr.io
         run: |
-          docker build -t $GCR_HOSTNAME/$PROJECT_ID/ecommerce-app:${{ github.sha }} .
-          docker push $GCR_HOSTNAME/$PROJECT_ID/ecommerce-app:${{ github.sha }}
+          docker build -t $GCR_HOSTNAME/${{ secrets.GCP_PROJECT_ID }}/ecommerce-app:${{ github.sha }} .
+          docker push $GCR_HOSTNAME/${{ secrets.GCP_PROJECT_ID }}/ecommerce-app:${{ github.sha }}
 
       - name: Deploy to GCE
         run: |
           gcloud compute instances update-container ecommerce-instance \
-            --container-image=$GCR_HOSTNAME/$PROJECT_ID/ecommerce-app:${{ github.sha }} \
+            --container-image=$GCR_HOSTNAME/${{ secrets.GCP_PROJECT_ID }}/ecommerce-app:${{ github.sha }} \
             --zone=asia-southeast1-a
