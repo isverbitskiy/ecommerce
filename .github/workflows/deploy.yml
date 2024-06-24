@@ -31,6 +31,7 @@ jobs:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
           token_format: 'access_token'
           create_credentials_file: true
+          audience: 'https://github.com/isverbitskiy/ecommerce'
 
       - name: Configure Docker
         run: |
